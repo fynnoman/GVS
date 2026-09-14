@@ -18,6 +18,13 @@ export default function Nav() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (event: KeyboardEvent) => { if (event.key === "Escape") setOpen(false); };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [open]);
+
   return (
     <>
       <header
@@ -26,28 +33,19 @@ export default function Nav() {
           scrolled ? "pt-2 sm:pt-3" : "pt-4 sm:pt-6",
         ].join(" ")}
       >
-        <div className="mx-auto max-w-[1240px] px-4 sm:px-6">
+        <div className="mx-auto max-w-[1080px] px-4 sm:px-6">
           <div
             className={[
-              "flex items-center justify-between rounded-full transition-all duration-500",
-              scrolled ? "glass px-3 py-2.5 sm:px-4" : "px-3 py-3 sm:px-4",
+              "nav-island flex items-center justify-between rounded-full transition-all duration-500",
+              scrolled ? "px-3 py-2.5 sm:px-4" : "px-3 py-3 sm:px-4",
             ].join(" ")}
-            style={
-              scrolled
-                ? {}
-                : {
-                    background: "rgba(247,249,252,0.55)",
-                    backdropFilter: "saturate(180%) blur(14px)",
-                    WebkitBackdropFilter: "saturate(180%) blur(14px)",
-                    border: "1px solid rgba(15,27,39,0.06)",
-                  }
-            }
+
           >
             <Link href="/" className="group flex items-center gap-3 pl-1">
               <Wordmark />
             </Link>
 
-            <nav className="hidden md:flex items-center gap-1">
+            <nav className="hidden lg:flex items-center gap-1">
               {nav
                 .filter((l) => l.href !== "/")
                 .map((l) => (
@@ -71,10 +69,10 @@ export default function Nav() {
 
             <button
               type="button"
-              aria-label="Menü öffnen"
+              aria-label={open ? "Menü schließen" : "Menü öffnen"}
               aria-expanded={open}
               onClick={() => setOpen((v) => !v)}
-              className="md:hidden inline-flex h-10 w-10 items-center justify-center rounded-full border border-ink-950/10 mr-1"
+              className="lg:hidden inline-flex h-10 w-10 items-center justify-center rounded-full border border-ink-950/10 mr-1"
             >
               <span className="relative block h-3 w-4">
                 <span
@@ -108,10 +106,10 @@ export default function Nav() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.25 }}
-            className="fixed inset-0 z-40 md:hidden"
+            className="fixed inset-0 z-40 lg:hidden"
           >
             <div
-              className="absolute inset-0 bg-cloud-50"
+              className="absolute inset-0 bg-[#082954]"
               onClick={() => setOpen(false)}
             />
             <motion.nav
@@ -134,7 +132,7 @@ export default function Nav() {
                       <Link
                         href={l.href}
                         onClick={() => setOpen(false)}
-                        className="font-display text-[40px] leading-[1.05] tracking-brand-tight text-ink-950"
+                        className="font-display text-[40px] leading-[1.05] tracking-brand-tight text-white"
                       >
                         {l.label}
                       </Link>
@@ -143,10 +141,10 @@ export default function Nav() {
               </ul>
               <div className="mt-10 hairline w-full" />
               <div className="mt-8 space-y-2">
-                <a href="tel:+496817094628" className="block text-[15px] text-ink-800">
+                <a href="tel:+496817094628" className="block text-[15px] text-white">
                   +49 681 7094628
                 </a>
-                <a href="mailto:info@gvsgmbh.de" className="block text-[15px] text-ink-800">
+                <a href="mailto:info@gvsgmbh.de" className="block text-[15px] text-white">
                   info@gvsgmbh.de
                 </a>
               </div>

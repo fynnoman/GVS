@@ -1,6 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  // Keep development from overwriting the production preview.
+  distDir: process.env.GVS_BUILD_DIR || (process.env.NODE_ENV === "development" ? ".next-dev" : ".next"),
   images: {
     qualities: [65, 70, 72, 74, 75, 78, 82, 85],
     remotePatterns: [
